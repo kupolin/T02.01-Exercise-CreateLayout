@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.android.datafrominternet.utilities.NetworkUtils;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,11 +55,14 @@ public class MainActivity extends AppCompatActivity {
         int menuItemThatWasSelected = item.getItemId();
         if(menuItemThatWasSelected == R.id.action_search)
         {
-            Context context = MainActivity.this;
-            String message = "Search clicked";
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-
+            makeGithubSearchQuery();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void makeGithubSearchQuery(){
+        String githubQuery = mSearchBoxEditText.getText().toString();
+        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
+        mUrlDisplayTextView.setText(githubSearchUrl.toString());
     }
 }
