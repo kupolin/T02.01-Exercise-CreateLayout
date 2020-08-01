@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2016 The Android Open Source Project
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,39 +14,59 @@
   limitations under the License.
 -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:paddingTop="16dp">
 
     <EditText
         android:id="@+id/et_search_box"
-        android:hint="Type a query for Github!"
-        android:textSize="22sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Type a query for Github!"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/tv_url_display"
-        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Enter a search query and your URL will show up here!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="22sp" />
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_github_search_results_json"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Make a search and your results will show up here!"
+                android:textSize="18sp" />
+        </ScrollView>
 
         <TextView
-            android:id="@+id/tv_github_search_results_json"
-            android:textSize="18sp"
-            android:text="Make a search and your results will show up here!"
+            android:id="@+id/tv_error_message_display"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/error_message"
+            android:textSize="22sp"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+    </FrameLayout>
 </LinearLayout>
