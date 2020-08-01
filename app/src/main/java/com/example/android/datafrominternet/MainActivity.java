@@ -16,6 +16,7 @@
 package com.example.android.datafrominternet;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.datafrominternet.utilities.NetworkUtils;
+import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView mUrlDisplayTextView;
 
-    TextView mSearchResults;
+    TextView mSearchResultsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,28 @@ public class MainActivity extends AppCompatActivity {
 
         mSearchBoxEditText = (EditText) findViewById(R.id.et_search_box);
         mUrlDisplayTextView = (TextView) findViewById(R.id.tv_url_display);
-        mSearchResults = (TextView) findViewById(R.id.tv_github_search_results_json);
+        mSearchResultsTextView = (TextView) findViewById(R.id.tv_github_search_results_json);
+    }
+    public class GithubQueryTask extends AsyncTask<URL, Void, String> {
+        @Override
+        protected String doInBackground(URL... urls)
+        {
+            URL searchUrl = urls[0];
+            String githubSearchResults = null;
+            try {
+                githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return githubSearchResults;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s != null && !s.equals("")) {
+                mSearchResultsTextView.setText(s);
+            }
+        }
     }
 
     @Override
@@ -64,5 +87,7 @@ public class MainActivity extends AppCompatActivity {
         String githubQuery = mSearchBoxEditText.getText().toString();
         URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
         mUrlDisplayTextView.setText(githubSearchUrl.toString());
+        String githubSearchResults = null;
+        new GithubQueryTask().execute(githubSearchUrl);
     }
 }
