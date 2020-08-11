@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         int menuItemThatWasSelected = item.getItemId();
         if (menuItemThatWasSelected == R.id.action_search) {
             makeGithubSearchQuery();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
